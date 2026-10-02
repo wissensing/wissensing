@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WissenSing Creates | Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0a0a0a',
+                        cardbg: 'rgba(255, 255, 255, 0.03)',
+                        cream: '#f3f4f6',
+                        lime: '#32CD32',
+                        electric: '#00E5FF',
+                        glass: 'rgba(255, 255, 255, 0.05)',
+                        glassBorder: 'rgba(255, 255, 255, 0.1)',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        cursive: ['Caveat', 'cursive'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'blob': 'blob 7s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #32CD32;
+        }
+
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .hover-glow-blue:hover {
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.3);
+            border-color: rgba(0, 229, 255, 0.5);
+        }
+        
+        .hover-glow-green:hover {
+            box-shadow: 0 0 25px rgba(50, 205, 50, 0.3);
+            border-color: rgba(50, 205, 50, 0.5);
+        }
+
+        /* Abstract Shape utilities */
+        .shape-blur {
+            filter: blur(60px);
+            opacity: 0.6;
+            mix-blend-mode: screen;
+        }
+
+        /* Image hover overlay for masonry */
+        .portfolio-card:hover .portfolio-overlay {
+            opacity: 1;
+        }
+        .portfolio-card:hover .portfolio-img {
+            transform: scale(1.05);
+        }
+        
+        /* Modal Animation */
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.3s ease-out;
+        }
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        
+        /* Text gradient */
+        .text-gradient {
+            background: linear-gradient(135deg, #f3f4f6 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-lime selection:text-black relative">
+
+    <nav class="fixed w-full z-50 glass-panel border-b-0 border-t-0 border-x-0 !border-b-glassBorder top-0 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold tracking-tighter flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-lime to-electric flex items-center justify-center text-black font-black text-xl">W</span>
+                WissenSing<span class="font-light text-gray-400">Creates</span>
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+                <a href="#apps" class="hover:text-electric transition-colors">Apps</a>
+                <a href="#portfolio" class="hover:text-lime transition-colors">Portfolio</a>
+                <a href="#about" class="hover:text-white transition-colors">About</a>
+                <a href="#contact" class="px-5 py-2 rounded-full border border-glassBorder hover:border-lime hover:text-lime transition-all">Contact</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden text-2xl text-gray-300 focus:outline-none" id="mobile-menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden glass-panel absolute top-full left-0 w-full border-t border-glassBorder flex-col p-4 gap-4" id="mobile-menu">
+            <a href="#apps" class="mobile-link text-gray-300 hover:text-electric block p-2">Apps</a>
+            <a href="#portfolio" class="mobile-link text-gray-300 hover:text-lime block p-2">Portfolio</a>
+            <a href="#about" class="mobile-link text-gray-300 hover:text-white block p-2">About</a>
+            <a href="#contact" class="mobile-link text-lime block p-2 font-medium">Contact</a>
+        </div>
+    </nav>
+
+    <header class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <!-- Background Orbs -->
+        <div class="absolute top-1/4 -left-32 w-96 h-96 bg-electric/20 rounded-full shape-blur animate-blob"></div>
+        <div class="absolute top-1/3 right-10 w-80 h-80 bg-lime/20 rounded-full shape-blur animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-1/4 left-1/2 w-96 h-96 bg-purple-500/10 rounded-full shape-blur animate-blob animation-delay-4000"></div>
+
+        <div class="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-12 items-center relative z-10">
+            <!-- Hero Text -->
+            <div class="space-y-8">
+                <div class="inline-block px-4 py-1.5 rounded-full border border-glassBorder glass-panel text-xs font-semibold tracking-widest uppercase text-gray-400 mb-2">
+                    Portfolio v2.0
+                </div>
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1]">
+                    WissenSing <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cream to-gray-600">Creates</span>
+                </h1>
+                <h2 class="font-cursive text-4xl md:text-5xl text-lime tracking-wide rotate-[-2deg] block mt-4">
+                    Creative freedom. Free for everyone.
+                </h2>
+                <p class="text-lg md:text-xl text-gray-400 max-w-lg leading-relaxed font-light">
+                    Apps, edits, graphics and creative tools — made to turn ideas into something real.
+                </p>
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="#apps" class="px-8 py-4 rounded-xl border border-electric/30 bg-electric/10 text-electric font-medium hover:bg-electric hover:text-black transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,229,255,0.4)] flex items-center gap-2 group">
+                        Explore My Apps <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="#portfolio" class="px-8 py-4 rounded-xl border border-lime/30 text-lime font-medium hover:bg-lime/10 transition-all duration-300 hover-glow-green flex items-center gap-2">
+                        View Portfolio <i class="fa-solid fa-palette"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hero Abstract Visual -->
+            <div class="relative h-[500px] hidden lg:flex items-center justify-center animate-float perspective-1000">
+                <!-- Center Core -->
+                <div class="absolute w-40 h-40 glass-panel rounded-full border-2 border-lime/50 shadow-[0_0_50px_rgba(50,205,50,0.3)] z-20 flex items-center justify-center">
+                    <i class="fa-solid fa-cube text-5xl text-cream"></i>
+                </div>
+                <!-- Orbiting Elements -->
+                <div class="absolute w-[400px] h-[400px] border border-glassBorder rounded-full animate-[spin_20s_linear_infinite]">
+                    <div class="absolute top-0 left-1/2 w-16 h-16 -ml-8 -mt-8 glass-panel rounded-xl border border-electric flex items-center justify-center text-electric">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                </div>
+                <div class="absolute w-[300px] h-[300px] border border-glassBorder rounded-full animate-[spin_15s_linear_infinite_reverse]">
+                    <div class="absolute bottom-0 left-1/2 w-14 h-14 -ml-7 -mb-7 glass-panel rounded-full border border-lime flex items-center justify-center text-lime">
+                        <i class="fa-solid fa-pen-nib"></i>
+                    </div>
+                </div>
+                <div class="absolute w-[500px] h-[500px] border border-glassBorder border-dashed rounded-full animate-[spin_30s_linear_infinite]">
+                    <div class="absolute top-1/2 -right-8 w-16 h-16 -mt-8 glass-panel rounded-2xl border border-purple-400 flex items-center justify-center text-purple-400">
+                        <i class="fa-solid fa-video"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="apps" class="py-24 relative z-10 border-t border-glassBorder">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Apps I Made</h2>
+                <div class="w-24 h-1 bg-electric mx-auto rounded-full shadow-[0_0_15px_rgba(0,229,255,0.5)]"></div>
+            </div>
+
+            <!-- Apps Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- App Card 1 -->
+                <div class="glass-panel p-8 rounded-3xl group transition-all duration-300 hover:-translate-y-2 hover-glow-blue flex flex-col h-full relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-electric/10 rounded-bl-full blur-2xl transition-all group-hover:bg-electric/20"></div>
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-800 to-black border border-glassBorder flex items-center justify-center text-3xl text-electric shadow-lg">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-white/10 text-xs font-mono text-gray-300 border border-white/5">v1.2</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">RenderFlow</h3>
+                    <p class="text-gray-400 text-sm mb-6 flex-grow">A lightweight background rendering utility for motion graphics creators. Streamline your export queue effortlessly.</p>
+                    
+                    <div class="flex items-center gap-3 text-gray-500 mb-8 border-t border-glassBorder pt-4">
+                        <i class="fa-brands fa-windows hover:text-white transition-colors" title="Windows"></i>
+                        <i class="fa-brands fa-apple hover:text-white transition-colors" title="macOS"></i>
+                        <i class="fa-brands fa-linux hover:text-white transition-colors" title="Linux"></i>
+                    </div>
+                    
+                    <button class="w-full py-3 rounded-xl bg-white/5 border border-white/10 font-medium hover:bg-electric hover:text-black hover:border-electric transition-all flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Download / Explore
+                    </button>
+                </div>
+
+                <!-- App Card 2 -->
+                <div class="glass-panel p-8 rounded-3xl group transition-all duration-300 hover:-translate-y-2 hover-glow-green flex flex-col h-full relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-lime/10 rounded-bl-full blur-2xl transition-all group-hover:bg-lime/20"></div>
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-800 to-black border border-glassBorder flex items-center justify-center text-3xl text-lime shadow-lg">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-white/10 text-xs font-mono text-gray-300 border border-white/5">v2.0</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">VectorSnap</h3>
+                    <p class="text-gray-400 text-sm mb-6 flex-grow">Quickly convert raster graphics to clean, scalable vector paths right on your device.</p>
+                    
+                    <div class="flex items-center gap-3 text-gray-500 mb-8 border-t border-glassBorder pt-4">
+                        <i class="fa-brands fa-windows hover:text-white transition-colors" title="Windows"></i>
+                        <i class="fa-brands fa-apple hover:text-white transition-colors" title="macOS"></i>
+                        <i class="fa-brands fa-android hover:text-white transition-colors" title="Android"></i>
+                    </div>
+                    
+                    <button class="w-full py-3 rounded-xl bg-white/5 border border-white/10 font-medium hover:bg-lime hover:text-black hover:border-lime transition-all flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Download / Explore
+                    </button>
+                </div>
+
+                <!-- App Card 3 -->
+                <div class="glass-panel p-8 rounded-3xl group transition-all duration-300 hover:-translate-y-2 hover:border-purple-500/50 hover:shadow-[0_0_25px_rgba(168,85,247,0.3)] flex flex-col h-full relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-bl-full blur-2xl transition-all group-hover:bg-purple-500/20"></div>
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-800 to-black border border-glassBorder flex items-center justify-center text-3xl text-purple-400 shadow-lg">
+                            <i class="fa-solid fa-music"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-white/10 text-xs font-mono text-gray-300 border border-white/5">v0.9b</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">BeatSync Edit</h3>
+                    <p class="text-gray-400 text-sm mb-6 flex-grow">Experimental tool that automatically generates marker cues based on audio transients for faster video editing.</p>
+                    
+                    <div class="flex items-center gap-3 text-gray-500 mb-8 border-t border-glassBorder pt-4">
+                        <i class="fa-brands fa-windows hover:text-white transition-colors" title="Windows"></i>
+                        <i class="fa-brands fa-linux hover:text-white transition-colors" title="Linux"></i>
+                    </div>
+                    
+                    <button class="w-full py-3 rounded-xl bg-white/5 border border-white/10 font-medium hover:bg-purple-500 hover:text-white hover:border-purple-500 transition-all flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Download / Explore
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-20">
+                <h3 class="text-2xl font-bold mb-8 text-center text-gray-200">Platform Availability</h3>
+                <div class="overflow-x-auto rounded-2xl border border-glassBorder glass-panel shadow-2xl">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-glassBorder bg-black/40">
+                                <th class="p-6 font-semibold text-gray-300">App</th>
+                                <th class="p-6 font-semibold text-center text-gray-300"><i class="fa-brands fa-windows text-xl"></i><span class="sr-only">Windows</span></th>
+                                <th class="p-6 font-semibold text-center text-gray-300"><i class="fa-brands fa-apple text-xl"></i><span class="sr-only">macOS</span></th>
+                                <th class="p-6 font-semibold text-center text-gray-300"><i class="fa-brands fa-linux text-xl"></i><span class="sr-only">Linux</span></th>
+                                <th class="p-6 font-semibold text-center text-gray-300"><i class="fa-brands fa-android text-xl"></i><span class="sr-only">Android</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-glassBorder text-center">
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="p-6 text-left font-medium">RenderFlow</td>
+                                <td class="p-6"><i class="fas fa-check text-lime"></i></td>
+                                <td class="p-6"><i class="fas fa-check text-lime"></i></td>
+                                <td class="p-6"><i class="fas fa-check text-lime"></i></td>
+                                <td class="p-6"><i class="fas fa-minus text-gray-600"></i></td>
+                            </tr>
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="p-6 text-left font-medium">VectorSnap</td>
+                                <td class="p-6"><i class="fas fa-check text-lime"></i></td>
+                                <td class="p-6"><i class="fas fa-check text-lime"></i></td>
+                                <td class="p-6"><i class="fas fa-minus text-gray-600"></i></td>
+                                <td class="p-6"><i class="fas fa-check text-lime"></i></td>
+                            </tr>
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="p-6 text-left font-medium">BeatSync Edit</td>
+                                <td class="p-6"><i class="fas fa-check text-lime"></i></td>
+                                <td class="p-6"><i class="fas fa-minus text-gray-600"></i></td>
+                                <td class="p-6"><i class="fas fa-check text-lime"></i></td>
+                                <td class="p-6"><i class="fas fa-minus text-gray-600"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="py-24 relative z-10 bg-black/50 border-t border-glassBorder">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 space-y-4">
+                <h2 class="text-4xl md:text-5xl font-bold">My Creative Work</h2>
+                <p class="text-xl text-gray-400 font-light tracking-wide uppercase text-sm">Editor &middot; Graphic Designer &middot; Creator</p>
+            </div>
+
+            <!-- CSS Columns Masonry -->
+            <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+                
+                <!-- Portfolio Item 1: 3D Animation -->
+                <div class="portfolio-card break-inside-avoid relative rounded-2xl overflow-hidden border border-glassBorder cursor-pointer group" onclick="openModal('Neon Cyberpunk City', '3D Animation & Rendering', 'A futuristic cityscape built and rendered in Blender, focusing on neon lighting and atmospheric volume.')">
+                    <div class="h-64 bg-gradient-to-br from-indigo-900 via-purple-900 to-black portfolio-img transition-transform duration-700 ease-out flex items-center justify-center relative">
+                        <!-- Abstract placeholder for graphic -->
+                        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent"></div>
+                        <i class="fa-solid fa-cube text-6xl text-white/20"></i>
+                    </div>
+                    <div class="portfolio-overlay absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 transition-opacity duration-300 p-6 text-center backdrop-blur-sm">
+                        <h4 class="text-xl font-bold mb-2">Neon Cyberpunk</h4>
+                        <p class="text-lime text-sm mb-4 font-mono">3D Animation</p>
+                        <span class="inline-block px-4 py-2 rounded-full border border-white/20 text-sm hover:bg-white hover:text-black transition-colors">View Project</span>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 2: UI Concept (Taller) -->
+                <div class="portfolio-card break-inside-avoid relative rounded-2xl overflow-hidden border border-glassBorder cursor-pointer group" onclick="openModal('Finance App Dashboard', 'UI/UX Concept', 'A clean, dark-mode financial dashboard concept prioritizing data visualization and user experience.')">
+                    <div class="h-96 bg-gradient-to-b from-gray-800 to-black portfolio-img transition-transform duration-700 ease-out flex flex-col p-6 relative">
+                         <!-- Abstract UI elements -->
+                         <div class="w-full h-8 bg-white/10 rounded-md mb-4"></div>
+                         <div class="flex gap-4 mb-4">
+                             <div class="w-1/2 h-24 bg-electric/20 rounded-xl"></div>
+                             <div class="w-1/2 h-24 bg-lime/20 rounded-xl"></div>
+                         </div>
+                         <div class="w-full flex-grow bg-white/5 rounded-xl"></div>
+                    </div>
+                    <div class="portfolio-overlay absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 transition-opacity duration-300 p-6 text-center backdrop-blur-sm">
+                        <h4 class="text-xl font-bold mb-2">Finance Dashboard</h4>
+                        <p class="text-electric text-sm mb-4 font-mono">UI Concepts</p>
+                        <span class="inline-block px-4 py-2 rounded-full border border-white/20 text-sm hover:bg-white hover:text-black transition-colors">View Project</span>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 3: Motion Graphics -->
+                <div class="portfolio-card break-inside-avoid relative rounded-2xl overflow-hidden border border-glassBorder cursor-pointer group" onclick="openModal('Kinetic Typography', 'Motion Graphics', 'Fast-paced kinetic typography edit synchronizing bold fonts with energetic audio beats.')">
+                    <div class="h-56 bg-gradient-to-r from-red-600 to-orange-600 portfolio-img transition-transform duration-700 ease-out flex items-center justify-center overflow-hidden relative">
+                         <h1 class="text-8xl font-black text-black/30 transform rotate-12 scale-150 leading-none">CREATE<br>MOTION</h1>
+                    </div>
+                    <div class="portfolio-overlay absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 transition-opacity duration-300 p-6 text-center backdrop-blur-sm">
+                        <h4 class="text-xl font-bold mb-2">Kinetic Typography</h4>
+                        <p class="text-orange-400 text-sm mb-4 font-mono">Motion Graphics</p>
+                        <span class="inline-block px-4 py-2 rounded-full border border-white/20 text-sm hover:bg-white hover:text-black transition-colors">View Project</span>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 4: Branding -->
+                <div class="portfolio-card break-inside-avoid relative rounded-2xl overflow-hidden border border-glassBorder cursor-pointer group" onclick="openModal('Aura Coffee Co.', 'Branding & Identity', 'Complete brand identity for a modern coffee shop including logo, packaging, and social media guidelines.')">
+                    <div class="h-72 bg-[#f4ebd0] portfolio-img transition-transform duration-700 ease-out flex items-center justify-center relative">
+                        <div class="w-32 h-32 rounded-full border-4 border-[#3e2723] flex items-center justify-center text-[#3e2723]">
+                            <i class="fa-solid fa-mug-hot text-5xl"></i>
+                        </div>
+                    </div>
+                    <div class="portfolio-overlay absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 transition-opacity duration-300 p-6 text-center backdrop-blur-sm">
+                        <h4 class="text-xl font-bold mb-2">Aura Coffee Co.</h4>
+                        <p class="text-[#f4ebd0] text-sm mb-4 font-mono">Branding</p>
+                        <span class="inline-block px-4 py-2 rounded-full border border-white/20 text-sm hover:bg-white hover:text-black transition-colors">View Project</span>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 5: Creative Experiment -->
+                <div class="portfolio-card break-inside-avoid relative rounded-2xl overflow-hidden border border-glassBorder cursor-pointer group" onclick="openModal('Glitch Art Series', 'Creative Experiments', 'Exploring data moshing and pixel sorting techniques to create abstract digital art.')">
+                    <div class="h-80 bg-black portfolio-img transition-transform duration-700 ease-out flex items-center justify-center relative overflow-hidden">
+                        <!-- CSS Glitch simulation -->
+                        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiMzMkNEMzIiPjwvcmVjdD4KPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjIiIGhlaWdodD0iMiIgZmlsbD0iIzAwRTVGRiI+PC9yZWN0Pgo8L3N2Zz4=')] opacity-30"></div>
+                        <div class="w-full h-1 bg-white/50 absolute top-1/3 animate-pulse"></div>
+                        <div class="w-full h-4 bg-lime/30 absolute top-1/2 -ml-4"></div>
+                        <div class="w-full h-2 bg-electric/40 absolute bottom-1/3 ml-8"></div>
+                        <i class="fa-solid fa-bug text-4xl text-white/40"></i>
+                    </div>
+                    <div class="portfolio-overlay absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 transition-opacity duration-300 p-6 text-center backdrop-blur-sm">
+                        <h4 class="text-xl font-bold mb-2">Glitch Series 01</h4>
+                        <p class="text-purple-400 text-sm mb-4 font-mono">Experiments</p>
+                        <span class="inline-block px-4 py-2 rounded-full border border-white/20 text-sm hover:bg-white hover:text-black transition-colors">View Project</span>
+                    </div>
+                </div>
+
+                 <!-- Portfolio Item 6: Poster Design -->
+                <div class="portfolio-card break-inside-avoid relative rounded-2xl overflow-hidden border border-glassBorder cursor-pointer group" onclick="openModal('Synthwave Festival', 'Poster Design', 'Event poster design utilizing strong typography, retro-futuristic grids, and vibrant neon gradients.')">
+                    <div class="h-64 bg-gradient-to-t from-fuchsia-900 to-indigo-900 portfolio-img transition-transform duration-700 ease-out flex flex-col justify-end p-6 relative overflow-hidden">
+                        <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-fuchsia-500/50 to-transparent"></div>
+                        <!-- Grid floor -->
+                        <div class="absolute bottom-0 w-[200%] h-32 -left-[50%] border-t border-fuchsia-400/50" style="background-image: linear-gradient(to right, rgba(232, 121, 249, 0.3) 1px, transparent 1px), linear-gradient(to bottom, rgba(232, 121, 249, 0.3) 1px, transparent 1px); background-size: 20px 20px; transform: perspective(100px) rotateX(60deg);"></div>
+                        <h2 class="font-sans font-black text-3xl text-white italic drop-shadow-[0_0_10px_rgba(232,121,249,0.8)] relative z-10">RETRO<br>WAVE</h2>
+                    </div>
+                    <div class="portfolio-overlay absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 transition-opacity duration-300 p-6 text-center backdrop-blur-sm">
+                        <h4 class="text-xl font-bold mb-2">Festival Poster</h4>
+                        <p class="text-fuchsia-400 text-sm mb-4 font-mono">Graphic Design</p>
+                        <span class="inline-block px-4 py-2 rounded-full border border-white/20 text-sm hover:bg-white hover:text-black transition-colors">View Project</span>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="mt-16 text-center">
+                 <button class="px-8 py-3 rounded-full glass-panel border border-glassBorder text-gray-300 hover:text-white hover:border-white transition-all inline-flex items-center gap-2">
+                    Load More Projects <i class="fa-solid fa-angle-down"></i>
+                 </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 relative z-10 border-t border-glassBorder flex items-center justify-center min-h-[50vh] text-center overflow-hidden">
+        <!-- Minimal abstract background -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-3xl rounded-full bg-gradient-to-tr from-lime/5 to-electric/5 blur-3xl -z-10"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 space-y-6">
+            <h2 class="font-cursive text-6xl md:text-8xl text-gradient block mb-4">
+                Create freely.
+            </h2>
+            <h3 class="text-4xl md:text-6xl font-black text-white/90 uppercase tracking-tighter">
+                Experiment endlessly.
+            </h3>
+            <div class="w-16 h-1 bg-white/20 mx-auto my-8"></div>
+            <p class="text-xl md:text-2xl text-lime font-light tracking-wide">
+                Creative freedom — free for everyone.
+            </p>
+        </div>
+    </section>
+
+    <section class="py-24 relative z-10 bg-black/40 border-t border-glassBorder overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="space-y-6">
+                <p class="text-electric font-mono tracking-widest text-sm uppercase">Responsive Design</p>
+                <h2 class="text-4xl md:text-5xl font-bold">PHONE &middot; PC &middot; TABLET</h2>
+                <p class="text-xl text-gray-400 font-light max-w-md">
+                    Designed for the way you create. The experience adapts flawlessly whether you are at your studio desk or on the move.
+                </p>
+            </div>
+            
+            <!-- Pure CSS Responsive Mockups Visual -->
+            <div class="relative h-80 flex items-end justify-center lg:justify-end gap-2 perspective-1000">
+                
+                <!-- Desktop Monitor -->
+                <div class="relative w-64 md:w-72 h-44 glass-panel border border-white/20 rounded-xl rounded-b-none border-b-0 flex flex-col justify-end items-center pb-2 z-10 shadow-2xl">
+                    <div class="w-full h-full p-2">
+                        <div class="w-full h-full bg-darkbg rounded border border-white/10 overflow-hidden relative">
+                             <!-- Faux screen content -->
+                             <div class="w-full h-3 bg-white/5 mb-1"></div>
+                             <div class="flex gap-1 p-1 h-full">
+                                 <div class="w-1/3 h-full bg-white/5 rounded-sm"></div>
+                                 <div class="w-2/3 h-full flex flex-col gap-1">
+                                     <div class="w-full h-1/2 bg-lime/10 rounded-sm"></div>
+                                     <div class="w-full h-1/2 bg-electric/10 rounded-sm"></div>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                    <div class="w-full h-2 bg-gray-700"></div>
+                    <div class="absolute -bottom-6 w-16 h-6 bg-gray-800 rounded-b-md"></div>
+                    <div class="absolute -bottom-8 w-32 h-2 bg-gray-700 rounded-t-md"></div>
+                </div>
+
+                <!-- Tablet -->
+                <div class="relative w-28 h-40 glass-panel border border-white/20 rounded-xl flex items-center justify-center p-1 z-20 -ml-16 shadow-[0_0_30px_rgba(0,0,0,0.8)] backdrop-blur-xl bg-black/60">
+                     <div class="w-full h-full bg-darkbg rounded-lg border border-white/10 relative overflow-hidden">
+                        <div class="w-full h-4 bg-white/5 mb-1"></div>
+                        <div class="p-1 gap-1 flex flex-col">
+                            <div class="w-full h-10 bg-purple-500/20 rounded-sm"></div>
+                            <div class="w-full h-10 bg-white/5 rounded-sm"></div>
+                        </div>
+                     </div>
+                </div>
+
+                <!-- Phone -->
+                <div class="relative w-16 h-32 glass-panel border border-white/20 rounded-xl flex items-center justify-center p-0.5 z-30 -ml-8 shadow-[0_0_20px_rgba(0,0,0,0.9)] backdrop-blur-2xl bg-black/80">
+                     <div class="w-full h-full bg-darkbg rounded-[9px] border border-white/10 relative overflow-hidden">
+                        <!-- Notch -->
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-1.5 bg-black rounded-b-md z-10"></div>
+                        <div class="w-full h-full p-1 pt-3 flex flex-col gap-1">
+                            <div class="w-full h-8 bg-lime/20 rounded-sm"></div>
+                            <div class="w-full h-8 bg-electric/20 rounded-sm"></div>
+                            <div class="w-full h-8 bg-white/5 rounded-sm"></div>
+                        </div>
+                     </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 relative z-10 border-t border-glassBorder">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h4 class="text-sm font-mono tracking-widest text-gray-500 mb-8 uppercase">Available On</h4>
+            <div class="flex flex-wrap justify-center gap-12 md:gap-24 text-4xl md:text-5xl text-gray-600">
+                <div class="group flex flex-col items-center gap-2 hover:-translate-y-2 transition-transform cursor-default">
+                    <i class="fa-brands fa-windows group-hover:text-[#00a4ef] transition-colors"></i>
+                    <span class="text-xs font-sans opacity-0 group-hover:opacity-100 transition-opacity">Windows</span>
+                </div>
+                <div class="group flex flex-col items-center gap-2 hover:-translate-y-2 transition-transform cursor-default">
+                    <i class="fa-brands fa-apple group-hover:text-white transition-colors"></i>
+                    <span class="text-xs font-sans opacity-0 group-hover:opacity-100 transition-opacity">macOS</span>
+                </div>
+                <div class="group flex flex-col items-center gap-2 hover:-translate-y-2 transition-transform cursor-default">
+                    <i class="fa-brands fa-linux group-hover:text-[#f5be04] transition-colors"></i>
+                    <span class="text-xs font-sans opacity-0 group-hover:opacity-100 transition-opacity">Linux</span>
+                </div>
+                <div class="group flex flex-col items-center gap-2 hover:-translate-y-2 transition-transform cursor-default">
+                    <i class="fa-brands fa-android group-hover:text-[#3DDC84] transition-colors"></i>
+                    <span class="text-xs font-sans opacity-0 group-hover:opacity-100 transition-opacity">Android</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 relative z-10 border-t border-glassBorder bg-gradient-to-b from-transparent to-black/80">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="inline-block w-20 h-20 rounded-full bg-gradient-to-br from-lime to-electric p-1 mb-8 shadow-[0_0_30px_rgba(50,205,50,0.2)]">
+                <div class="w-full h-full bg-darkbg rounded-full flex items-center justify-center text-3xl font-black text-white">
+                    W
+                </div>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold mb-8">I create. I edit. I design.</h2>
+            <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light mb-12">
+                Whether it's crafting immersive <span class="text-white font-medium">3D environments</span>, rendering fluid animations, editing engaging videos, or building intuitive apps, <span class="text-lime font-medium">WissenSing Creates</span> is an independent creative space dedicated to graphic design, post-production projects, and experimental ideas pushing the boundaries of digital art.
+            </p>
+            <a href="#contact" class="inline-block px-10 py-4 rounded-xl glass-panel border border-white/20 hover:bg-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all font-medium">
+                Get In Touch
+            </a>
+        </div>
+    </section>
+
+    <footer id="contact" class="pt-20 pb-10 border-t border-glassBorder bg-black relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <!-- Brand -->
+                <div class="md:col-span-2 space-y-4">
+                    <a href="#" class="text-2xl font-bold tracking-tighter flex items-center gap-2 text-white">
+                        <span class="w-6 h-6 rounded-md bg-gradient-to-br from-lime to-electric flex items-center justify-center text-black font-black text-sm">W</span>
+                        WissenSing<span class="font-light text-gray-400">Creates</span>
+                    </a>
+                    <p class="text-gray-500 font-light text-sm max-w-sm">
+                        An independent studio exploring the intersection of design, code, and motion.
+                    </p>
+                    <div class="flex gap-4 pt-4">
+                        <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-all"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-all"><i class="fa-brands fa-dribbble"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-all"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-all"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links 1 -->
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Navigation</h4>
+                    <ul class="space-y-3 text-gray-500 text-sm">
+                        <li><a href="#portfolio" class="hover:text-lime transition-colors">Portfolio</a></li>
+                        <li><a href="#apps" class="hover:text-electric transition-colors">Apps</a></li>
+                        <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links 2 -->
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Legal</h4>
+                    <ul class="space-y-3 text-gray-500 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">License</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-glassBorder flex flex-col md:flex-row items-center justify-between gap-4 text-center">
+                <p class="text-gray-600 text-sm">
+                    &copy; 2026 WissenSing Creates. All rights reserved.
+                </p>
+                <p class="text-sm font-cursive text-gray-400 tracking-wide text-xl">
+                    Made with creativity, curiosity & freedom. <i class="fa-solid fa-heart text-lime text-sm ml-1"></i>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer" onclick="closeModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="bg-darkbg border border-glassBorder rounded-2xl w-full max-w-2xl relative z-10 shadow-2xl overflow-hidden" id="modalContent">
+            <!-- Close btn -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-20">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            
+            <!-- Abstract header -->
+            <div class="h-40 bg-gradient-to-br from-gray-800 to-black relative flex items-center justify-center border-b border-glassBorder">
+                 <i class="fa-solid fa-palette text-5xl text-white/20"></i>
+                 <!-- Accent line -->
+                 <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-lime to-electric"></div>
+            </div>
+            
+            <div class="p-8">
+                <p id="modalCategory" class="text-lime text-xs font-mono uppercase tracking-widest mb-2"></p>
+                <h3 id="modalTitle" class="text-3xl font-bold text-white mb-4"></h3>
+                <p id="modalDesc" class="text-gray-400 leading-relaxed mb-8"></p>
+                
+                <div class="flex gap-4">
+                    <button class="px-6 py-2.5 rounded-lg bg-white/10 hover:bg-white text-white hover:text-black font-medium transition-all" onclick="closeModal()">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+            const icon = btn.querySelector('i');
+            if(menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+
+        // Close mobile menu on link click
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+                btn.querySelector('i').classList.remove('fa-times');
+                btn.querySelector('i').classList.add('fa-bars');
+            });
+        });
+
+        // Sticky Navbar Glass Effect Enhancement
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-black/40');
+                nav.classList.remove('bg-transparent');
+            } else {
+                nav.classList.remove('bg-black/40');
+                nav.classList.add('bg-transparent');
+            }
+        });
+
+        // Modal Logic
+        const modal = document.getElementById('projectModal');
+        const modalContent = document.getElementById('modalContent');
+        const mTitle = document.getElementById('modalTitle');
+        const mCat = document.getElementById('modalCategory');
+        const mDesc = document.getElementById('modalDesc');
+
+        function openModal(title, category, desc) {
+            mTitle.textContent = title;
+            mCat.textContent = category;
+            mDesc.textContent = desc;
+            
+            modal.classList.remove('hidden');
+            
+            // Trigger animation
+            modalContent.classList.add('modal-enter');
+            // Small delay to allow reflow
+            setTimeout(() => {
+                modalContent.classList.remove('modal-enter');
+                modalContent.classList.add('modal-enter-active');
+            }, 10);
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalContent.classList.remove('modal-enter-active');
+            modalContent.classList.add('modal-enter');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modalContent.classList.remove('modal-enter');
+                // Restore body scroll
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // Close modal on Esc key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
